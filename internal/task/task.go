@@ -5,11 +5,23 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/google/uuid"
 )
 
-type Task struct {
-	ID string `json:"id"`
-	Name string `json:"name"`
+type InputTask struct {
+	Name   string     `json:"name"`
+	Due    *time.Time `json:"due"`
+	Done   bool       `json:"done"`
+	Active bool       `json:"active"`
+}
+
+type InsertTask struct {
+	ID     uuid.UUID  `json:"id"`
+	Name   string     `json:"name"`
+	Due    *time.Time `json:"due"`
+	Done   bool       `json:"done"`
+	Active bool       `json:"active"`
 }
 
 func verifyStorageFile() {
@@ -28,23 +40,31 @@ func verifyStorageFile() {
 	_, statErr := os.Stat(filePath)
 
 	var (
-		file *os.File
+		file    *os.File
 		fileErr error
 	)
-	
+
 	if errors.Is(statErr, os.ErrNotExist) {
 		file, fileErr = os.Create(filePath)
 	} else {
 		panic("Fatal error: 'tasks.json' located in '%s' is corrupted or obstructed.\n" + filePath)
 	}
 
-	if fileErr != nil  {
+	if fileErr != nil {
 		panic("Fatal error: Failed to create file" + filePath + ".\n" + fileErr.Error())
 	}
 
 	defer file.Close()
 }
 
-func Add(task Task, due time.Time) {
-	
+func Add(inputTask InputTask, due *time.Time) {
+	verifyStorageFile()
+
+	newTask := InsertTask{
+		ID:     uuid.New(),
+		Name:   inputTask.Name,
+		Due:    due,
+		Done:   false,
+		Active: true,
+	}
 }
