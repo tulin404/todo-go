@@ -36,7 +36,7 @@ func verifyStorageFile() *os.File {
 		panic("Fatal error: Failed to create application's folder.\n" + err.Error())
 	}
 
-	filePath := filepath.Join(dirPath, "tasks.json")
+	filePath := filepath.Join(dirPath, "tasks.jsonl")
 
 	file, err := os.OpenFile(
 		filePath,
