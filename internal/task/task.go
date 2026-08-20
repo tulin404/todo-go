@@ -1,13 +1,12 @@
 package task
 
 import (
-	"encoding/json"
-	"errors"
 	"os"
 	"path/filepath"
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/tulin404/todo-go/internal/storage"
 )
 
 type InputTask struct {
@@ -26,33 +25,26 @@ type InsertTask struct {
 }
 
 func verifyStorageFile() *os.File {
-	dirPath, dirPathErr := os.UserCacheDir()
-	if dirPathErr != nil {
-		panic("Fatal error: No cache directory on system.\n" + dirPathErr.Error())
+	dirPath, err := os.UserCacheDir()
+	if err != nil {
+		panic("Fatal error: No cache directory on system.\n" + err.Error())
 	}
 
 	dirPath = filepath.Join(dirPath, "todo-go")
-	if err := os.Mkdir(dirPath, 0755); err != nil {
-		panic("Fatal error: Failed to create applications's folder.\n" + err.Error())
+
+	if err := os.MkdirAll(dirPath, 0755); err != nil {
+		panic("Fatal error: Failed to create application's folder.\n" + err.Error())
 	}
 
 	filePath := filepath.Join(dirPath, "tasks.json")
 
-	_, statErr := os.Stat(filePath)
-
-	var (
-		file    *os.File
-		fileErr error
+	file, err := os.OpenFile(
+		filePath,
+		os.O_CREATE|os.O_APPEND|os.O_WRONLY,
+		0644,
 	)
-
-	if errors.Is(statErr, os.ErrNotExist) {
-		file, fileErr = os.Create(filePath)
-	} else if statErr != nil {
-		panic("Fatal error: 'tasks.json' located in '%s' is corrupted or obstructed.\n" + filePath)
-	}
-
-	if fileErr != nil {
-		panic("Fatal error: Failed to create file" + filePath + ".\n" + fileErr.Error())
+	if err != nil {
+		panic("Fatal error: Failed to open file " + filePath + ".\n" + err.Error())
 	}
 
 	return file
@@ -60,6 +52,7 @@ func verifyStorageFile() *os.File {
 
 func Add(inputTask InputTask, due *time.Time) {
 	file := verifyStorageFile()
+	defer file.Close()
 
 	newTask := InsertTask{
 		ID:     uuid.New(),
@@ -69,12 +62,5 @@ func Add(inputTask InputTask, due *time.Time) {
 		Active: true,
 	}
 
-	encoder := json.NewEncoder(file)
-	encoder.SetIndent("", "    ")
-
-	if err := encoder.Encode(newTask); err != nil {
-		panic("Fatal error: Failed to write new task on tasks.json.\n" + err.Error())
-	}
-
-	defer file.Close()
+	storage.SaveTask(file, newTask)
 }
