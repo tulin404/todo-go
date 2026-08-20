@@ -1,6 +1,7 @@
 package task
 
 import (
+	"encoding/json"
 	"errors"
 	"os"
 	"path/filepath"
@@ -24,7 +25,7 @@ type InsertTask struct {
 	Active bool       `json:"active"`
 }
 
-func verifyStorageFile() {
+func verifyStorageFile() *os.File {
 	dirPath, dirPathErr := os.UserCacheDir()
 	if dirPathErr != nil {
 		panic("Fatal error: No cache directory on system.\n" + dirPathErr.Error())
@@ -46,7 +47,7 @@ func verifyStorageFile() {
 
 	if errors.Is(statErr, os.ErrNotExist) {
 		file, fileErr = os.Create(filePath)
-	} else {
+	} else if statErr != nil {
 		panic("Fatal error: 'tasks.json' located in '%s' is corrupted or obstructed.\n" + filePath)
 	}
 
@@ -54,11 +55,11 @@ func verifyStorageFile() {
 		panic("Fatal error: Failed to create file" + filePath + ".\n" + fileErr.Error())
 	}
 
-	defer file.Close()
+	return file
 }
 
 func Add(inputTask InputTask, due *time.Time) {
-	verifyStorageFile()
+	file := verifyStorageFile()
 
 	newTask := InsertTask{
 		ID:     uuid.New(),
@@ -67,4 +68,13 @@ func Add(inputTask InputTask, due *time.Time) {
 		Done:   false,
 		Active: true,
 	}
+
+	encoder := json.NewEncoder(file)
+	encoder.SetIndent("", "    ")
+
+	if err := encoder.Encode(newTask); err != nil {
+		panic("Fatal error: Failed to write new task on tasks.json.\n" + err.Error())
+	}
+
+	defer file.Close()
 }
