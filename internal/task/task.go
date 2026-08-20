@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/tulin404/todo-go/internal/storage"
 )
 
 type InputTask struct {
@@ -20,19 +19,4 @@ type Task struct {
 	Due    *time.Time `json:"due"`
 	Done   bool       `json:"done"`
 	Active bool       `json:"active"`
-}
-
-func Add(inputTask InputTask, due *time.Time) {
-	file := storage.VerifyStorageFile()
-	defer file.Close()
-
-	newTask := Task{
-		ID:     uuid.New(),
-		Name:   inputTask.Name,
-		Due:    due,
-		Done:   false,
-		Active: true,
-	}
-
-	storage.SaveTask(file, newTask)
 }
