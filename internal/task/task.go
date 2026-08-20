@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 type Task struct {
@@ -11,7 +12,7 @@ type Task struct {
 	Name string `json:"name"`
 }
 
-func verifyFile() {
+func verifyStorageFile() {
 	dirPath, dirPathErr := os.UserCacheDir()
 	if dirPathErr != nil {
 		panic("Fatal error: No cache directory on system.\n" + dirPathErr.Error())
@@ -44,6 +45,6 @@ func verifyFile() {
 	defer file.Close()
 }
 
-func Add() {
+func Add(task Task, due time.Time) {
 	
 }
