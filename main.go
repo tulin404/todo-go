@@ -1,23 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"os"
+
+	"github.com/tulin404/todo-go/cmd"
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("usage: todo <command>")
-		return
-	}
-
-	args := os.Args[1:]
-
-	switch args {
-	case "add":
-		task
-		// case "remove":
-		// case "done":
-		// case "list":
+	if err := cmd.Execute(); err != nil {
+		os.Exit(1)
 	}
 }
