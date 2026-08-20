@@ -1,8 +1,6 @@
 package task
 
 import (
-	"os"
-	"path/filepath"
 	"time"
 
 	"github.com/google/uuid"
@@ -16,7 +14,7 @@ type InputTask struct {
 	Active bool       `json:"active"`
 }
 
-type InsertTask struct {
+type Task struct {
 	ID     uuid.UUID  `json:"id"`
 	Name   string     `json:"name"`
 	Due    *time.Time `json:"due"`
@@ -24,37 +22,11 @@ type InsertTask struct {
 	Active bool       `json:"active"`
 }
 
-func verifyStorageFile() *os.File {
-	dirPath, err := os.UserCacheDir()
-	if err != nil {
-		panic("Fatal error: No cache directory on system.\n" + err.Error())
-	}
-
-	dirPath = filepath.Join(dirPath, "todo-go")
-
-	if err := os.MkdirAll(dirPath, 0755); err != nil {
-		panic("Fatal error: Failed to create application's folder.\n" + err.Error())
-	}
-
-	filePath := filepath.Join(dirPath, "tasks.jsonl")
-
-	file, err := os.OpenFile(
-		filePath,
-		os.O_CREATE|os.O_APPEND|os.O_WRONLY,
-		0644,
-	)
-	if err != nil {
-		panic("Fatal error: Failed to open file " + filePath + ".\n" + err.Error())
-	}
-
-	return file
-}
-
 func Add(inputTask InputTask, due *time.Time) {
-	file := verifyStorageFile()
+	file := storage.VerifyStorageFile()
 	defer file.Close()
 
-	newTask := InsertTask{
+	newTask := Task{
 		ID:     uuid.New(),
 		Name:   inputTask.Name,
 		Due:    due,
