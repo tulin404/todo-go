@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/tulin404/todo-go/internal/task"
@@ -18,8 +19,14 @@ var addCmd = &cobra.Command{
 	Args: cobra.ExactArgs(1),
 
 	RunE: func(cmd *cobra.Command, args []string) error {
+		var emoji string
+
+		fmt.Print("Type an emoji to this task: ")
+		fmt.Scan(&emoji)
+
 		addDto := task.AddInput{
-			Name: args[0],
+			Emoji: strings.TrimSpace(emoji),
+			Name:  args[0],
 		}
 
 		task.Add(addDto)

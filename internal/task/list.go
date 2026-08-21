@@ -39,7 +39,7 @@ func List(filters []string) error {
 			continue
 		}
 
-		fmt.Println(task.Emoji + " " + task.Name)
+		fmt.Println(task.Emoji, task.Name)
 		taskCount++
 	}
 
