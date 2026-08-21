@@ -38,7 +38,7 @@ func List(filters []string) error {
 			continue
 		}
 
-		fmt.Println(task)
+		fmt.Println("● " + task.Name)
 		taskCount++
 	}
 

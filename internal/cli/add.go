@@ -1,6 +1,8 @@
 package cli
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
 	"github.com/tulin404/todo-go/internal/task"
 )
@@ -17,6 +19,8 @@ var addCmd = &cobra.Command{
 		}
 
 		task.Add(addDto)
+		fmt.Println("\033[32m✔ \033[0m Task added")
+
 		return nil
 	},
 }

@@ -25,5 +25,5 @@ func Execute() error {
 }
 
 func init() {
-	rootCmd.AddCommand()
+	rootCmd.AddCommand(addCmd)
 }
