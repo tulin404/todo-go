@@ -3,14 +3,17 @@ package task
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 
 	"github.com/tulin404/todo-go/internal/storage"
 )
 
 // List LISTS ALL THE TASKS AND CAN FILTER THEM
-func List(filters []string) {
-	file := storage.VerifyStorageFile()
+func List(filters []string) error {
+	file, err := storage.VerifyStorageFile()
+	if err != nil {
+		return fmt.Errorf("failed to list tasks: %v", err)
+	}
+	defer file.Close()
 
 	// ABSTRACTION WRAPPER FOR NOT DIRECTLY USING BUFIO
 	scanner := storage.NewScanner(file)
@@ -21,7 +24,7 @@ func List(filters []string) {
 		line, err := storage.Next(scanner)
 
 		if err != nil {
-			log.Fatalf("\033[1;31mFatal error:\033[0m failed to read tasks file\n %v", err)
+			return fmt.Errorf("\033[1;31mFatal error:\033[0m failed to read tasks file\n %v", err)
 		}
 
 		if line == nil {
@@ -42,4 +45,6 @@ func List(filters []string) {
 	if taskCount <= 0 {
 		fmt.Println("YAY! You don't have nothing to do! Wait... would that be great?")
 	}
+
+	return nil
 }

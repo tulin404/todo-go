@@ -8,11 +8,12 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "todo",
 	Short: "A simple todo cli.",
+	Args:  cobra.NoArgs,
 
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// THIS IMPLEMENTS A BASIC VERSION OF todo list
 		if len(args) < 1 {
-			task.List(nil)
+			return task.List(nil)
 		}
 
 		return nil

@@ -1,13 +1,13 @@
 package main
 
 import (
-	"os"
+	"log"
 
 	"github.com/tulin404/todo-go/internal/cli"
 )
 
 func main() {
 	if err := cli.Execute(); err != nil {
-		os.Exit(1)
+		log.Fatalf("\033[1;31mFatal error:\033[0m %v", err)
 	}
 }
