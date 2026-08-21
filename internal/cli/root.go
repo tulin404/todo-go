@@ -5,7 +5,7 @@ import (
 	"github.com/tulin404/todo-go/internal/task"
 )
 
-// var 'rootCmd' represents the root cli command ('todo') and it's the entry command of Cobra
+// var 'rootCmd' represents the root cli command ('todo') and serves as the entry point of the command tree.
 var rootCmd = &cobra.Command{
 	Use:   "todo",
 	Short: "A simple todo cli.",
