@@ -19,5 +19,5 @@ func Add(inputTask InputTask, due *time.Time) {
 		Active: true,
 	}
 
-	storage.SaveTask(file, newTask)
+	storage.Save(file, newTask)
 }
