@@ -1,9 +1,8 @@
 package cli
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
+	"github.com/tulin404/todo-go/internal/task"
 )
 
 var rootCmd = &cobra.Command{
@@ -13,10 +12,9 @@ var rootCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// THIS IMPLEMENTS A BASIC VERSION OF todo list
 		if len(args) < 1 {
-
+			task.List(nil)
 		}
 
-		fmt.Println(args[0])
 		return nil
 	},
 }
