@@ -5,6 +5,7 @@ import (
 	"github.com/tulin404/todo-go/internal/task"
 )
 
+// var 'rootCmd' represents the root cli command ('todo') and it's the entry command of Cobra
 var rootCmd = &cobra.Command{
 	Use:   "todo",
 	Short: "A simple todo cli.",
@@ -20,10 +21,12 @@ var rootCmd = &cobra.Command{
 	},
 }
 
+// 'Execute' is a wrapper that abstracts Cobra's execution workflow and initialize the CLI command tree using Cobra's .Execute()
 func Execute() error {
 	return rootCmd.Execute()
 }
 
+// 'init' appends the subcomands and flags to the its parent command
 func init() {
 	rootCmd.AddCommand(addCmd)
 }

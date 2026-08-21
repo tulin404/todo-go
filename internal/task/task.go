@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// type 'Task' represents the complete task model ready for consume or insert
 type Task struct {
 	ID     uuid.UUID  `json:"id"`
 	Name   string     `json:"name"`

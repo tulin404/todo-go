@@ -8,11 +8,13 @@ import (
 	"github.com/tulin404/todo-go/internal/storage"
 )
 
+// type 'AddInput' is a simple DTO for standardization and type safety
 type AddInput struct {
-	Name string     `json:"name"`
-	Due  *time.Time `json:"due"`
+	Name string
+	Due  *time.Time
 }
 
+// 'Add' opens the task file (for storage) and adds a task
 func Add(input AddInput) error {
 	file, error := storage.VerifyStorageFile()
 	if error != nil {

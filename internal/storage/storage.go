@@ -7,11 +7,13 @@ import (
 	"os"
 )
 
-// ABSTRACTIOM LAYER
+// 'NewScanner' is an abstraction layer for no direct coupling between package task and direct data readers
 func NewScanner(file *os.File) *bufio.Scanner {
+	// ABSTRACTION LAYER
 	return bufio.NewScanner(file)
 }
 
+// 'Save' edits the tasks file and saves the received task
 func Save(file *os.File, task any) error {
 	encoder := json.NewEncoder(file)
 

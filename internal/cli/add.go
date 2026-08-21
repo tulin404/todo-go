@@ -9,6 +9,10 @@ import (
 
 var due string
 
+/*
+var 'addCmd' represents the "add" subcommand and is directly linked to the rootCmd
+Cobra's tree: todo -> add
+*/
 var addCmd = &cobra.Command{
 	Use:  "add [task]",
 	Args: cobra.ExactArgs(1),

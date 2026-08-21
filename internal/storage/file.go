@@ -7,6 +7,7 @@ import (
 	"runtime"
 )
 
+// 'userDataDir' returns the data directory of the user based on it's OS
 func userDataDir() (string, error) {
 	switch runtime.GOOS {
 	case "windows":
@@ -40,6 +41,10 @@ func userDataDir() (string, error) {
 	}
 }
 
+/*
+'VerifyStorageFile' verifies the storage file before any type of action that depends on it, returning a file descriptor for access
+OBS: IT DOES NOT CLOSE THE FILE BY ITSELF
+*/
 func VerifyStorageFile() (*os.File, error) {
 	dir, err := userDataDir()
 	if err != nil {

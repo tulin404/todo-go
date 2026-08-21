@@ -7,7 +7,7 @@ import (
 	"github.com/tulin404/todo-go/internal/storage"
 )
 
-// List LISTS ALL THE TASKS AND CAN FILTER THEM
+// 'List' lists all the tasks and can filter them
 func List(filters []string) error {
 	file, err := storage.VerifyStorageFile()
 	if err != nil {
@@ -20,6 +20,7 @@ func List(filters []string) error {
 
 	taskCount := 0
 
+	// NOTHING STAYS IN MEMORY FOR PRINTING AFTER, EVERYTHING IS PRINTED AT RUNTIME
 	for {
 		line, err := storage.Next(scanner)
 
