@@ -15,13 +15,14 @@ var 'addCmd' represents the "add" subcommand and is directly linked to the rootC
 Cobra's tree: todo -> add
 */
 var addCmd = &cobra.Command{
-	Use:  "add [task]",
-	Args: cobra.ExactArgs(1),
+	Use:   "add [task]",
+	Short: "Add a task",
+	Args:  cobra.ExactArgs(1),
 
 	RunE: func(cmd *cobra.Command, args []string) error {
-		var emoji string
+		var emoji string = "📝"
 
-		fmt.Print("Type an emoji to this task: ")
+		fmt.Print("Type an emoji to this task (empty for default 📝): ")
 		fmt.Scan(&emoji)
 
 		addDto := task.AddInput{
