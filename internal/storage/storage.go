@@ -24,6 +24,7 @@ func Save(file *os.File, task any) error {
 	return nil
 }
 
+// 'Next' scans the next line of the scanner selected file on demand
 func Next(scanner *bufio.Scanner) ([]byte, error) {
 	if !scanner.Scan() {
 		if err := scanner.Err(); err != nil {
