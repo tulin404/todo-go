@@ -21,6 +21,8 @@ func List(filters []string) error {
 	taskCount := 0
 
 	// NOTHING STAYS IN MEMORY FOR PRINTING AFTER, EVERYTHING IS PRINTED AT RUNTIME
+	fmt.Printf("%-6s %-30s\n", "EMOJI", "TASK")
+	fmt.Printf("%-6s %-30s\n", "-----", "------------------------------")
 	for {
 		line, err := storage.Next(scanner)
 
@@ -39,7 +41,7 @@ func List(filters []string) error {
 			continue
 		}
 
-		fmt.Println(task.Emoji, task.Name)
+		fmt.Printf("%-6s %-30s\n", task.Emoji, task.Name)
 		taskCount++
 	}
 

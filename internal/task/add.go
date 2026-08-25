@@ -19,7 +19,7 @@ type AddInput struct {
 func Add(input AddInput) error {
 	file, error := storage.VerifyStorageFile()
 	if error != nil {
-		return fmt.Errorf("failed to add task:")
+		return fmt.Errorf("failed to add task: ")
 	}
 	defer file.Close()
 
