@@ -9,8 +9,14 @@ import (
 
 // 'List' lists all the tasks and can filter them
 func List(filters []string) error {
+	file, err := storage.VerifyStorageFile()
+	if err != nil {
+		return fmt.Errorf("failed to verify tasks file: %v", err)
+	}
+	defer file.Close()
+
 	// ABSTRACTION WRAPPER FOR NOT DIRECTLY USING BUFIO
-	scanner, err := storage.NewScanner()
+	scanner, err := storage.NewScanner(file)
 	if err != nil {
 		return fmt.Errorf("failed to list tasks: %v", err)
 	}

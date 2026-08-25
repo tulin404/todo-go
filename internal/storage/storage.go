@@ -4,16 +4,11 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"os"
 )
 
 // 'NewScanner' is an abstraction layer for no direct coupling between package task and direct data readers
-func NewScanner() (*bufio.Scanner, error) {
-	file, err := VerifyStorageFile()
-	if err != nil {
-		return nil, fmt.Errorf("failed to verify tasks file: %v", err)
-	}
-	defer file.Close()
-
+func NewScanner(file *os.File) (*bufio.Scanner, error) {
 	// ABSTRACTION LAYER
 	return bufio.NewScanner(file), nil
 }
