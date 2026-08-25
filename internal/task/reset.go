@@ -7,11 +7,9 @@ import (
 )
 
 func Reset() error {
-	file, err := storage.VerifyStorageFile()
-	if err != nil {
-		return fmt.Errorf("failed to reset tasks: %v", err)
+	if err := storage.Reset(); err != nil {
+		return fmt.Errorf("failed to reset tasks file: %v", err)
 	}
-	defer file.Close()
 
-	return storage.Reset()
+	return nil
 }
