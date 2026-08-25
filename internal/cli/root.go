@@ -13,11 +13,7 @@ var rootCmd = &cobra.Command{
 
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// THIS IMPLEMENTS A BASIC VERSION OF todo list
-		if len(args) < 1 {
-			return task.List(nil)
-		}
-
-		return nil
+		return task.List(nil)
 	},
 }
 
