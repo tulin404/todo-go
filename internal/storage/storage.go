@@ -4,17 +4,28 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"os"
 )
 
 // 'NewScanner' is an abstraction layer for no direct coupling between package task and direct data readers
-func NewScanner(file *os.File) *bufio.Scanner {
+func NewScanner() (*bufio.Scanner, error) {
+	file, err := VerifyStorageFile()
+	if err != nil {
+		return nil, fmt.Errorf("failed to verify tasks file: %v", err)
+	}
+	defer file.Close()
+
 	// ABSTRACTION LAYER
-	return bufio.NewScanner(file)
+	return bufio.NewScanner(file), nil
 }
 
 // 'Save' edits the tasks file and saves the received task
-func Save(file *os.File, task any) error {
+func Save(task any) error {
+	file, err := VerifyStorageFile()
+	if err != nil {
+		return fmt.Errorf("failed to verify tasks file: %v", err)
+	}
+	defer file.Close()
+
 	encoder := json.NewEncoder(file)
 
 	if err := encoder.Encode(task); err != nil {
@@ -41,4 +52,22 @@ func Next(scanner *bufio.Scanner) ([]byte, error) {
 	}
 
 	return line, nil
+}
+
+func Reset() error {
+	file, err := VerifyStorageFile()
+	if err != nil {
+		return fmt.Errorf("failed to verify tasks file: %v", err)
+	}
+	defer file.Close()
+
+	if err := file.Truncate(0); err != nil {
+		return fmt.Errorf("failed to truncate file: %v", err)
+	}
+
+	if _, err := file.Seek(0, 0); err != nil {
+		return fmt.Errorf("failed to reset file pointer: %v", err)
+	}
+
+	return nil
 }

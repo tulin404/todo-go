@@ -48,7 +48,7 @@ OBS: IT DOES NOT CLOSE THE FILE BY ITSELF
 func VerifyStorageFile() (*os.File, error) {
 	dir, err := userDataDir()
 	if err != nil {
-		return nil, fmt.Errorf("failed to verify storage file\n %v", err)
+		return nil, fmt.Errorf("failed to verify storage dir\n %v", err)
 	}
 
 	dir = filepath.Join(dir, "todo-go")

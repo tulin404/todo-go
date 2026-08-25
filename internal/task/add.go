@@ -17,12 +17,6 @@ type AddInput struct {
 
 // 'Add' opens the task file (for storage) and adds a task
 func Add(input AddInput) error {
-	file, error := storage.VerifyStorageFile()
-	if error != nil {
-		return fmt.Errorf("failed to add task: ")
-	}
-	defer file.Close()
-
 	newTask := Task{
 		ID:     uuid.New(),
 		Emoji:  input.Emoji,
@@ -32,5 +26,9 @@ func Add(input AddInput) error {
 		Active: true,
 	}
 
-	return storage.Save(file, newTask)
+	if err := storage.Save(newTask); err != nil {
+		return fmt.Errorf("failed to save tasks file: %v", err)
+	}
+
+	return nil
 }
