@@ -22,11 +22,10 @@ var addCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 
 	RunE: func(cmd *cobra.Command, args []string) error {
-		scanner := bufio.NewScanner(os.Stdin)
-
 		var emoji string = "📝"
-
 		fmt.Print("Type an emoji to this task (empty for default 📝): ")
+
+		scanner := bufio.NewScanner(os.Stdin)
 
 		if scanner.Scan() {
 			input := scanner.Text()
@@ -34,6 +33,10 @@ var addCmd = &cobra.Command{
 			if input != "" {
 				emoji = input
 			}
+		}
+
+		if err := scanner.Err(); err != nil {
+			return fmt.Errorf("failed to read input: %v", err)
 		}
 
 		addDto := task.AddInput{
