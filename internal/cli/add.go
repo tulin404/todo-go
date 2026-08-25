@@ -1,7 +1,9 @@
 package cli
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -20,10 +22,19 @@ var addCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 
 	RunE: func(cmd *cobra.Command, args []string) error {
+		scanner := bufio.NewScanner(os.Stdin)
+
 		var emoji string = "📝"
 
 		fmt.Print("Type an emoji to this task (empty for default 📝): ")
-		fmt.Scan(&emoji)
+
+		if scanner.Scan() {
+			input := scanner.Text()
+
+			if input != "" {
+				emoji = input
+			}
+		}
 
 		addDto := task.AddInput{
 			Emoji: strings.TrimSpace(emoji),
