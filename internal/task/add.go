@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/tulin404/todo-go/internal/storage"
 )
+
+var currentID uint64 = 0
 
 // type 'AddInput' is a simple DTO for standardization and type safety
 type AddInput struct {
@@ -18,7 +19,7 @@ type AddInput struct {
 // 'Add' opens the task file (for storage) and adds a task
 func Add(input AddInput) error {
 	newTask := Task{
-		ID:     uuid.New(),
+		ID:     currentID + 1,
 		Emoji:  input.Emoji,
 		Name:   input.Name,
 		Due:    input.Due,
