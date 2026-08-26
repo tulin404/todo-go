@@ -7,9 +7,6 @@ import (
 	"github.com/tulin404/todo-go/internal/storage"
 )
 
-// var 'currentID' is local var that mantains the order for identifying tasks
-var currentID uint64 = 0
-
 // type 'AddInput' is a simple DTO for standardization and type safety
 type AddInput struct {
 	Emoji string
@@ -19,8 +16,13 @@ type AddInput struct {
 
 // 'Add' opens the task file (for storage) and adds a task
 func Add(input AddInput) error {
+	id, err := generateID()
+	if err != nil {
+		return fmt.Errorf("failed to add task: %v", err)
+	}
+
 	newTask := Task{
-		ID:     currentID + 1,
+		ID:     id,
 		Emoji:  input.Emoji,
 		Name:   input.Name,
 		Due:    input.Due,
@@ -29,7 +31,7 @@ func Add(input AddInput) error {
 	}
 
 	if err := storage.Save(newTask); err != nil {
-		return fmt.Errorf("failed to save tasks file: %v", err)
+		return fmt.Errorf("failed to add task: %v", err)
 	}
 
 	return nil

@@ -44,7 +44,9 @@ var addCmd = &cobra.Command{
 			Name:  args[0],
 		}
 
-		task.Add(addDto)
+		if err := task.Add(addDto); err != nil {
+			return err
+		}
 		fmt.Println("\033[32m✔ \033[0m Task added")
 
 		return nil
