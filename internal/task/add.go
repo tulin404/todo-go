@@ -7,6 +7,7 @@ import (
 	"github.com/tulin404/todo-go/internal/storage"
 )
 
+// var 'currentID' is local var that mantains the order for identifying tasks
 var currentID uint64 = 0
 
 // type 'AddInput' is a simple DTO for standardization and type safety
