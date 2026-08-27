@@ -19,6 +19,14 @@ var addCmd = &cobra.Command{
 	Short: "Add a task",
 	Args:  cobra.ExactArgs(1),
 
+	ValidArgsFunction: func(
+		cmd *cobra.Command,
+		args []string,
+		toComplete string,
+	) ([]string, cobra.ShellCompDirective) {
+		return nil, cobra.ShellCompDirectiveNoFileComp
+	},
+
 	RunE: func(cmd *cobra.Command, args []string) error {
 		var emoji string = "📝"
 		fmt.Print("Type an emoji to this task (empty for default 📝): ")
