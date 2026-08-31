@@ -25,5 +25,6 @@ func Execute() error {
 // 'init' appends the subcomands and flags to the its parent command
 func init() {
 	rootCmd.AddCommand(addCmd)
+	rootCmd.AddCommand(removeCmd)
 	rootCmd.AddCommand(resetCmd)
 }
