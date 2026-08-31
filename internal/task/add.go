@@ -19,7 +19,7 @@ type AddInput struct {
 func Add(input AddInput) error {
 	id, err := helpers.GenerateID()
 	if err != nil {
-		return fmt.Errorf("failed to add task: %v", err)
+		return fmt.Errorf("failed to add task: %w", err)
 	}
 
 	newTask := Task{
@@ -32,7 +32,7 @@ func Add(input AddInput) error {
 	}
 
 	if err := storage.Save(newTask); err != nil {
-		return fmt.Errorf("failed to add task: %v", err)
+		return fmt.Errorf("failed to add task: %w", err)
 	}
 
 	return nil

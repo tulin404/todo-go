@@ -47,7 +47,7 @@ var addCmd = &cobra.Command{
 		}
 
 		if err := scanner.Err(); err != nil {
-			return fmt.Errorf("failed to read input: %v", err)
+			return fmt.Errorf("failed to read input: %w", err)
 		}
 
 		addDto := task.AddInput{

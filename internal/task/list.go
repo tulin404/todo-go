@@ -67,7 +67,7 @@ func List(filters []string) error {
 		line, err := storage.Next(scanner)
 
 		if err != nil {
-			return fmt.Errorf("failed to list task: %v", err)
+			return fmt.Errorf("failed to list task: %w", err)
 		}
 
 		if line == nil {
