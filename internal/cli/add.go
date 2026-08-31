@@ -37,7 +37,12 @@ var addCmd = &cobra.Command{
 			input := scanner.Text()
 
 			if input != "" {
-				emoji = input
+				runes := []rune(input)
+				if len(runes) > 1 {
+					emoji = string(runes[:1])
+				} else {
+        			emoji = input
+    			}
 			}
 		}
 
