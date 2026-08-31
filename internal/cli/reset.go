@@ -10,6 +10,10 @@ import (
 	"github.com/tulin404/todo-go/internal/task"
 )
 
+/*
+var 'resetCmd' represents the "reset" subcommand and is directly linked to the rootCmd
+Cobra's tree: todo -> reset
+*/
 var resetCmd = &cobra.Command{
 	Use:   "reset",
 	Short: "Cleans all tasks",

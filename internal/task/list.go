@@ -7,6 +7,7 @@ import (
 	"github.com/tulin404/todo-go/internal/storage"
 )
 
+// 'ListRaw' returns all the tasks as a []Task
 func ListRaw() ([]Task, error) {
 	file, err := storage.VerifyStorageFile()
 	if err != nil {

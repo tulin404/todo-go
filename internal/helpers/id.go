@@ -8,6 +8,7 @@ import (
 
 const alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+// 'GenerateID' generates and returns a 8 digit Base62 ID
 func GenerateID() (string, error) {
 	id := make([]byte, 8)
 
