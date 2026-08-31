@@ -1,4 +1,4 @@
-package task
+package helpers
 
 import (
 	"crypto/rand"
@@ -8,7 +8,7 @@ import (
 
 const alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-func generateID() (string, error) {
+func GenerateID() (string, error) {
 	id := make([]byte, 8)
 
 	for i := range id {
