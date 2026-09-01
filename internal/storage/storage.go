@@ -54,7 +54,7 @@ func Save(task any) error {
 func Remove(id string) error {
 	file, err := VerifyStorageFile()
 	if err != nil {
-		return fmt.Errorf("failed to verify tasks file: %v", err)
+		return fmt.Errorf("failed to verify tasks file: %w", err)
 	}
 	defer file.Close()
 
@@ -80,17 +80,17 @@ func Remove(id string) error {
 	}
 
 	if err := scanner.Err(); err != nil {
-        return fmt.Errorf("failed to scan tasks file: %w", err)
-    }
+		return fmt.Errorf("failed to scan tasks file: %w", err)
+	}
 
-    file.Close()
+	file.Close()
 
-    // EVEN THOUGHT THIS APPROACH IS LESS MEMORY EFFICIENT, IT REDUCES SYSTEM CALLS AND MAKES SURE THAT THE FILE WILL BE OVERWRITTEN ONLY IF SCAN SUCCEDS
-    return os.WriteFile(
-    	file.Name(),
-     	[]byte(strings.Join(lines, "\n")+"\n"),
-      	0644,
-    )
+	// EVEN THOUGHT THIS APPROACH IS LESS MEMORY EFFICIENT, IT REDUCES SYSTEM CALLS AND MAKES SURE THAT THE FILE WILL BE OVERWRITTEN ONLY IF SCAN SUCCEDS
+	return os.WriteFile(
+		file.Name(),
+		[]byte(strings.Join(lines, "\n")+"\n"),
+		0644,
+	)
 }
 
 // 'Reset' resets the tasks file, wiping out every task
