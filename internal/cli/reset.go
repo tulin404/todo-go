@@ -38,7 +38,7 @@ var resetCmd = &cobra.Command{
 			return err
 		}
 
-		fmt.Println("All the tasks were cleaned.")
+		fmt.Println("🗑️ All the tasks were cleaned.")
 		return nil
 	},
 }
