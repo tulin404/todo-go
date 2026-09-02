@@ -76,8 +76,8 @@ func List(filters []string) error {
 
 		// JUST PRINTS IN THE FIRST ITERATION AND DOESNT PRINT IF THE USER DOESNT HAVE TASKS (after line == nil)
 		if taskCount == 0 {
-			fmt.Printf("%-5s | %-30s\n", "ICON", "TASK")
-			fmt.Printf("%-5s---%-30s\n", "-----", "------------------------------") // 3 literal hyphens for matching the " | "
+			fmt.Printf("%-4s | %-30s\n", "ICON", "TASK")
+			fmt.Printf("%-4s---%-30s\n", "-----", "------------------------------") // 3 literal hyphens for matching the " | "
 		}
 
 		var task Task
@@ -87,7 +87,7 @@ func List(filters []string) error {
 			continue
 		}
 
-		fmt.Printf("%-5s  %-30s\n", task.Emoji, task.Name)
+		fmt.Printf("%-4s  %-30s\n", task.Emoji, task.Name)
 		taskCount++
 	}
 

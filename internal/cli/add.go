@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/rivo/uniseg"
 	"github.com/spf13/cobra"
 	"github.com/tulin404/todo-go/internal/task"
 )
@@ -37,12 +38,7 @@ var addCmd = &cobra.Command{
 			input := scanner.Text()
 
 			if input != "" {
-				runes := []rune(input)
-				if len(runes) > 1 {
-					emoji = string(runes[:1])
-				} else {
-        			emoji = input
-    			}
+				emoji, _, _, _ = uniseg.FirstGraphemeClusterInString(input, -1)
 			}
 		}
 
