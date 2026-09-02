@@ -87,7 +87,7 @@ func List(filters []string) error {
 			continue
 		}
 
-		fmt.Printf("%-4s  %-30s\n", task.Emoji, task.Name)
+		fmt.Printf("%-4s  %-30s\n", task.Icon, task.Name)
 		taskCount++
 	}
 

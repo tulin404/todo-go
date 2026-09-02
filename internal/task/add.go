@@ -10,9 +10,9 @@ import (
 
 // type 'AddInput' is a simple DTO for standardization and type safety
 type AddInput struct {
-	Emoji string
-	Name  string
-	Due   *time.Time
+	Icon string
+	Name string
+	Due  *time.Time
 }
 
 // 'Add' opens the task file (for storage) and adds a task
@@ -24,7 +24,7 @@ func Add(input AddInput) error {
 
 	newTask := Task{
 		ID:     id,
-		Emoji:  input.Emoji,
+		Icon:   input.Icon,
 		Name:   input.Name,
 		Due:    input.Due,
 		Done:   false,

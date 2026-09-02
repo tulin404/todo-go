@@ -29,8 +29,8 @@ var addCmd = &cobra.Command{
 	},
 
 	RunE: func(cmd *cobra.Command, args []string) error {
-		var emoji string = "📝"
-		fmt.Print("Type an emoji to this task (empty for default 📝): ")
+		var icon string = "📝"
+		fmt.Print("Type an emoji/icon to this task (empty for default 📝): ")
 
 		scanner := bufio.NewScanner(os.Stdin)
 
@@ -38,7 +38,7 @@ var addCmd = &cobra.Command{
 			input := scanner.Text()
 
 			if input != "" {
-				emoji, _, _, _ = uniseg.FirstGraphemeClusterInString(input, -1)
+				icon, _, _, _ = uniseg.FirstGraphemeClusterInString(input, -1)
 			}
 		}
 
@@ -47,8 +47,8 @@ var addCmd = &cobra.Command{
 		}
 
 		addDto := task.AddInput{
-			Emoji: strings.TrimSpace(emoji),
-			Name:  args[0],
+			Icon: strings.TrimSpace(icon),
+			Name: args[0],
 		}
 
 		if err := task.Add(addDto); err != nil {

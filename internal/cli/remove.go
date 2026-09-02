@@ -34,7 +34,7 @@ var removeCmd = &cobra.Command{
 			if hasPrefix && !alreadyTyped {
 				completions = append(
 					completions,
-					fmt.Sprintf("%s\t%s", task.ID, task.Name),
+					fmt.Sprintf("%s\t%s %s", task.ID, task.Icon, task.Name),
 				)
 			}
 		}
