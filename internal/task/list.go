@@ -94,7 +94,11 @@ func List(filters []string) error {
 	if taskCount <= 0 {
 		fmt.Println("YAY! You don't have nothing to do! Wait... would that be great?")
 	} else {
-		fmt.Printf("\nYou have %d tasks\n", taskCount)
+		if taskCount == 1 {
+			fmt.Printf("\nYou have %d task\n", taskCount)
+		} else {
+			fmt.Printf("\nYou have %d tasks\n", taskCount)
+		}
 	}
 
 	return nil
