@@ -24,13 +24,7 @@ func Next(scanner *bufio.Scanner) ([]byte, error) {
 		return nil, nil
 	}
 
-	line := scanner.Bytes()
-
-	if len(line) <= 0 {
-		return nil, nil
-	}
-
-	return line, nil
+	return scanner.Bytes(), nil
 }
 
 // 'Save' edits the tasks file and saves the received task
