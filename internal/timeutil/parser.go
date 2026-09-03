@@ -6,11 +6,12 @@ import (
 )
 
 // 'FromNow' receives a input (string) and returns the sum of this input and the current time
-func FromNow(input string) (time.Time, error) {
+func FromNow(input string) (*time.Time, error) {
 	duration, err := time.ParseDuration(input)
 	if err != nil {
-		return time.Time{}, fmt.Errorf("failed to read input: %w", err)
+		return nil, fmt.Errorf("failed to read input: %w", err)
 	}
 
-	return time.Now().Add(duration), nil
+	t := time.Now().Add(duration)
+	return &t, nil
 }

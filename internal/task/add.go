@@ -2,6 +2,7 @@ package task
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/tulin404/todo-go/internal/helpers"
 	"github.com/tulin404/todo-go/internal/storage"
@@ -22,16 +23,24 @@ func Add(input AddInput) error {
 		return fmt.Errorf("failed to add task: %w", err)
 	}
 
-	parsedDue, err := timeutil.FromNow(input.Due)
-	if err != nil {
-		return fmt.Errorf("failed to add task: %w", err)
+	var canParse bool
+	var parsedDue *time.Time
+
+	if input.Due != "" {
+		canParse = true
 	}
 
+	if canParse {
+		parsedDue, err = timeutil.FromNow(input.Due)
+		if err != nil {
+			return fmt.Errorf("failed to add task: %w", err)
+		}
+	}
 	newTask := Task{
 		ID:     id,
 		Icon:   input.Icon,
 		Name:   input.Name,
-		Due:    &parsedDue,
+		Due:    parsedDue,
 		Done:   false,
 		Active: true,
 	}

@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/tulin404/todo-go/internal/helpers"
 	"github.com/tulin404/todo-go/internal/storage"
+	"github.com/tulin404/todo-go/internal/timeutil"
 )
 
 // 'ListRaw' returns all the tasks as a []Task
@@ -76,8 +78,8 @@ func List(filters []string) error {
 
 		// JUST PRINTS IN THE FIRST ITERATION AND DOESNT PRINT IF THE USER DOESNT HAVE TASKS (after line == nil)
 		if taskCount == 0 {
-			fmt.Printf("%-4s | %-30s\n", "ICON", "TASK")
-			fmt.Printf("%-4s---%-30s\n", "-----", "------------------------------") // 3 literal hyphens for matching the " | "
+			fmt.Printf("%-4s | %-30s | %-20s\n", "ICON", "TASK", "DUE")
+			fmt.Printf("%-4s---%-30s---%20s\n", "-----", "------------------------------", "--------------------") // 3 literal hyphens for matching the " | "
 		}
 
 		var task Task
@@ -87,8 +89,16 @@ func List(filters []string) error {
 			continue
 		}
 
-		fmt.Printf("%-4s  %-30s\n", task.Icon, task.Name)
+		chunks := helpers.SplitRigid(task.Name, 30)
+
+		fmt.Printf("%-4s  %-30s   %-20s\n", task.Icon, chunks[0], timeutil.FormatDue(task.Due))
+
+		for i := 1; i < len(chunks); i++ {
+    		fmt.Printf("%-4s   %-30s   %-20s\n", "", chunks[i], "") // EXTRA SPACE FOR ALIGNMENT
+		}
+
 		taskCount++
+
 	}
 
 	if taskCount <= 0 {
