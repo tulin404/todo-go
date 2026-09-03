@@ -11,6 +11,8 @@ import (
 	"github.com/tulin404/todo-go/internal/task"
 )
 
+var due string
+
 /*
 var 'addCmd' represents the "add" subcommand and is directly linked to the rootCmd
 Cobra's tree: todo -> add
@@ -58,4 +60,8 @@ var addCmd = &cobra.Command{
 
 		return nil
 	},
+}
+
+func init() {
+	addCmd.Flags().StringVarP(&due, "due", "d", "", "Task's due date")
 }
