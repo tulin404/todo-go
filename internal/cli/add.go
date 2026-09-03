@@ -51,6 +51,7 @@ var addCmd = &cobra.Command{
 		addDto := task.AddInput{
 			Icon: strings.TrimSpace(icon),
 			Name: args[0],
+			Due:  due,
 		}
 
 		if err := task.Add(addDto); err != nil {

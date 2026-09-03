@@ -2,17 +2,17 @@ package task
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/tulin404/todo-go/internal/helpers"
 	"github.com/tulin404/todo-go/internal/storage"
+	"github.com/tulin404/todo-go/internal/timeutil"
 )
 
 // type 'AddInput' is a simple DTO for standardization and type safety
 type AddInput struct {
 	Icon string
 	Name string
-	Due  *time.Time
+	Due  string
 }
 
 // 'Add' opens the task file (for storage) and adds a task
@@ -22,11 +22,16 @@ func Add(input AddInput) error {
 		return fmt.Errorf("failed to add task: %w", err)
 	}
 
+	parsedDue, err := timeutil.FromNow(input.Due)
+	if err != nil {
+		return fmt.Errorf("failed to add task: %w", err)
+	}
+
 	newTask := Task{
 		ID:     id,
 		Icon:   input.Icon,
 		Name:   input.Name,
-		Due:    input.Due,
+		Due:    &parsedDue,
 		Done:   false,
 		Active: true,
 	}
