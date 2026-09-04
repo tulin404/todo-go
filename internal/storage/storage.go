@@ -9,9 +9,9 @@ import (
 )
 
 // 'NewScanner' is an abstraction layer for no direct coupling between package task and direct data readers
-func NewScanner(file *os.File) (*bufio.Scanner, error) {
+func NewScanner(file *os.File) (*bufio.Scanner) {
 	// ABSTRACTION LAYER
-	return bufio.NewScanner(file), nil
+	return bufio.NewScanner(file)
 }
 
 // 'Next' scans the next line of the scanner selected file on demand
