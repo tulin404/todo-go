@@ -13,14 +13,11 @@ import (
 func ListRaw() ([]Task, error) {
 	file, err := storage.VerifyStorageFile()
 	if err != nil {
-		return nil, fmt.Errorf("failed to verify tasks file: %v", err)
+		return nil, fmt.Errorf("failed to verify tasks file: %w", err)
 	}
 	defer file.Close()
 
-	scanner, err := storage.NewScanner(file)
-	if err != nil {
-		return nil, fmt.Errorf("failed to list tasks: %v", err)
-	}
+	scanner := storage.NewScanner(file)
 
 	var tasks []Task
 
@@ -28,7 +25,7 @@ func ListRaw() ([]Task, error) {
 		line, err := storage.Next(scanner)
 
 		if err != nil {
-			return nil, fmt.Errorf("failed to list task: %v", err)
+			return nil, fmt.Errorf("failed to list task: %w", err)
 		}
 
 		if line == nil {
@@ -52,15 +49,12 @@ func ListRaw() ([]Task, error) {
 func List(filters []string) error {
 	file, err := storage.VerifyStorageFile()
 	if err != nil {
-		return fmt.Errorf("failed to verify tasks file: %v", err)
+		return fmt.Errorf("failed to verify tasks file: %w", err)
 	}
 	defer file.Close()
 
 	// ABSTRACTION WRAPPER FOR NOT DIRECTLY USING BUFIO
-	scanner, err := storage.NewScanner(file)
-	if err != nil {
-		return fmt.Errorf("failed to list tasks: %v", err)
-	}
+	scanner := storage.NewScanner(file)
 
 	taskCount := 0
 
