@@ -10,14 +10,6 @@ import (
 // 'userDataDir' returns the data directory of the user based on it's OS
 func userDataDir() (string, error) {
 	switch runtime.GOOS {
-	case "windows":
-		dir := os.Getenv("APPDATA")
-		if dir == "" {
-			return "", fmt.Errorf("APPDATA is not defined\n")
-		}
-
-		return dir, nil
-
 	case "linux":
 		dir := os.Getenv("XDG_DATA_HOME")
 		if dir != "" {
