@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-// 'getSocketPath' returns the unix socket path (IPC)
+// 'getSocketPath' returns the Unix socket path (IPC)
 func getSocketPath() string {
 	runtimeDir := os.Getenv("$XDG_RUNTIME_DIR")
 	if runtimeDir != "" {
@@ -17,12 +17,12 @@ func getSocketPath() string {
 	return "/tmp/todo.sock"
 }
 
-// const 'Path' is the universal path for the unix socket (IPC)
+// const 'Path' is the universal path for the Unix socket (IPC)
 var socketPath = getSocketPath()
 
-// 'Send' sends a received command to the socket connection (IPC)
+// 'Send' sends a received command to the Unix socket connection (IPC)
 func Send(command Command) error {
-	conn, err := net.Dial("tcp", socketPath)
+	conn, err := net.Dial("unix", socketPath)
 	if err != nil {
 		return err
 	}
