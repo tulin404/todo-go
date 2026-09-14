@@ -8,7 +8,7 @@ import (
 	"github.com/tulin404/todo-go/internal/task"
 )
 
-// NextTask returns the unnotified task with the earliest due date, including overdue tasks.
+// 'nextTask' returns the unnotified task with the earliest due date, including overdue tasks.
 func nextTask() (*task.Task, error) {
 	file, err := storage.VerifyStorageFile()
 	if err != nil {
