@@ -17,8 +17,13 @@ func getSocketPath() string {
 	return "/tmp/todo.sock"
 }
 
-// const 'Path' is the universal path for the Unix socket (IPC)
+// var 'socketPath' is the universal path for the Unix socket (IPC)
 var socketPath = getSocketPath()
+
+// 'Listen' listen to the Unix socket
+func Listen() (net.Listener,error) {
+	return net.Listen("unix", socketPath)
+}
 
 // 'Send' sends a received command to the Unix socket connection (IPC)
 func Send(command Command) error {
