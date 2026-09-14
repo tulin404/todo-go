@@ -9,7 +9,7 @@ import (
 )
 
 // NextTask returns the unnotified task with the earliest due date, including overdue tasks.
-func NextTask() (*task.Task, error) {
+func nextTask() (*task.Task, error) {
 	file, err := storage.VerifyStorageFile()
 	if err != nil {
 		return nil, fmt.Errorf("failed to verify tasks file: %w", err)
