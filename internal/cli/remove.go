@@ -9,6 +9,10 @@ import (
 	"github.com/tulin404/todo-go/internal/task"
 )
 
+/*
+var 'removeCmd' represents the "remove" subcommand and is directly linked to the rootCmd
+Cobra's tree: todo -> remove
+*/
 var removeCmd = &cobra.Command{
 	Use:   "remove [id]",
 	Short: "Completely removes a task",
