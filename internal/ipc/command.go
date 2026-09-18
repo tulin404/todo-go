@@ -1,11 +1,11 @@
 package ipc
 
-import "time"
+import (
+	"github.com/tulin404/todo-go/internal/task"
+)
 
 // type 'Command' is a DTO struct for IPC between todo daemon <-> todo program
 type Command struct {
 	Command  string 	`json:"command"`
-	TaskID   string 	`json:"task_id,omitempty"`
-	TaskDue  *time.Time `json:"task_due,omitempty"`
-	TaskName string 	`json:"task_name,omitempty"`
+	Task     task.Task	`json:"task"`
 }
