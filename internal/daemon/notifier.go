@@ -6,7 +6,7 @@ import (
 	"github.com/tulin404/todo-go/internal/task"
 )
 
-func notify(task *task.Task) error {
+func Notify(task *task.Task) error {
 	err := beeep.Notify(task.Name, "Task", task.Icon)
 	if err != nil {
 		return err
