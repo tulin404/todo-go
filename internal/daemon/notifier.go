@@ -7,7 +7,7 @@ import (
 )
 
 func Notify(task task.Task) error {
-	err := beeep.Notify(task.Name, "Task", task.Icon)
+	err := beeep.Notify("TASK", task.Name, task.Icon)
 	if err != nil {
 		return err
 	}
