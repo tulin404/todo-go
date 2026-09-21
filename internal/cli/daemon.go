@@ -7,7 +7,7 @@ import (
 )
 
 /*
-var 'removeCmd' represents the "daemon" subcommand and is directly linked to the rootCmd. It isn't suposed to be ran directly
+var 'removeCmd' represents the "daemon" subcommand and is directly linked to the rootCmd. It isn't supposed to be run directly
 Cobra's tree: todo -> daemon
 */
 var daemonCmd = &cobra.Command{
