@@ -21,17 +21,22 @@ func Notified(id string) error {
 	for scanner.Scan() {
 		line := scanner.Text()
 
-		var task struct {
-			ID       string `json:"id"`
-			Notified bool   `json:"notified"`
-		}
+		// NIL MAP
+		// USING MAP FOR MARSHALING EVERY STRUCT FIELD
+		var taskData map[string]any
 
-		if err := json.Unmarshal([]byte(line), &task); err != nil {
+		if err := json.Unmarshal([]byte(line), &taskData); err != nil {
 			return fmt.Errorf("failed to parse json: %w", err)
 		}
 
-		if task.ID == id {
-			task.Notified = true
+		if taskData["id"] == id {
+			taskData["notified"] = true
+			updated, err := json.Marshal(taskData)
+			if err != nil {
+				return fmt.Errorf("failed to marshal task: %w", err)
+			}
+
+			line = string(updated)
 		}
 
 		lines = append(lines, line)
@@ -40,8 +45,6 @@ func Notified(id string) error {
 	if err := scanner.Err(); err != nil {
 		return fmt.Errorf("failed to scan tasks file: %w", err)
 	}
-
-	file.Close()
 
 	// EVEN THOUGHT THIS APPROACH IS LESS MEMORY EFFICIENT, IT REDUCES SYSTEM CALLS AND MAKES SURE THAT THE FILE WILL BE OVERWRITTEN ONLY IF SCAN SUCCEDS
 	return os.WriteFile(
