@@ -35,17 +35,47 @@ var daemonCmd = &cobra.Command{
 
 		for {
 			select {
+				// NEW COMMAND INCOME
 				case command := <- commands:
-					newTask, err := daemon.HandleCommand(*task, command)
-					if err != nil {
-						return err
-					}
+					newTask, recalc := daemon.HandleCommand(*task, command)
+
+					// add case
 					// NO NEW TASK FOR SUB
-					if newTask == nil {
+					if newTask != nil {
+						task = newTask
+						timer = daemon.NewTimer(*newTask.Due)
 						break
 					}
 
-					timer = daemon.NewTimer(*newTask.Due)
+					// remove case
+					// TASK REMOVED, NEED TO RECALC
+					if recalc {
+						task, err = daemon.NextTask()
+						if err != nil {
+							return err
+						}
+					}
+
+				// TIME TO NOTIFY
+				case <- timer.C:
+					err := daemon.Notify(*task)
+					if err != nil {
+						return err
+					}
+
+					newTask, err := daemon.NextTask()
+						if err != nil {
+							return err
+						}
+
+						if newTask == nil {
+							// Não há mais tarefas para agendar
+							timer = nil
+							continue
+						}
+
+						task = newTask
+						timer = daemon.NewTimer(*task.Due)
 			}
 		}
 	},
