@@ -10,12 +10,12 @@ import (
 )
 
 /*
-var 'removeCmd' represents the "remove" subcommand and is directly linked to the rootCmd
-Cobra's tree: todo -> remove
+var 'doneCmd' represents the "done" subcommand and is directly linked to the rootCmd
+Cobra's tree: todo -> done
 */
-var removeCmd = &cobra.Command{
-	Use:   "remove [id]",
-	Short: "Completely removes a task",
+var doneCmd = &cobra.Command{
+	Use:   "done [id]",
+	Short: "Marks a task as done",
 	Args:  cobra.ArbitraryArgs,
 
 	ValidArgsFunction: func(
@@ -48,11 +48,11 @@ var removeCmd = &cobra.Command{
 
 	RunE: func(cmd *cobra.Command, args []string) error {
 		for _, id := range args {
-			if err := task.Remove(id); err != nil {
+			if err := task.Done(id); err != nil {
 				return err
 			}
 		}
-		fmt.Println("🗑️ Task removed")
+		fmt.Println("✓ Task done. Congratulations!")
 		return nil
 	},
 }
