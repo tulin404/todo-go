@@ -83,6 +83,11 @@ func List(filters []string) error {
 			continue
 		}
 
+		// CHECK FILTERS AFTER TO SEE IF DONE FILTER IS ACTIVE
+		if task.Done {
+			continue
+		}
+
 		chunks := helpers.SplitRigid(task.Name, 30)
 
 		fmt.Printf("%-4s  %-30s   %-20s\n", task.Icon, chunks[0], timeutil.FormatDue(task.Due))
@@ -96,7 +101,7 @@ func List(filters []string) error {
 	}
 
 	if taskCount <= 0 {
-		fmt.Println("YAY! You don't have nothing to do! Wait... would that be great?")
+		fmt.Println("\nYAY! You don't have nothing to do! Wait... would that be great?")
 	} else {
 		if taskCount == 1 {
 			fmt.Printf("\nYou have %d task\n", taskCount)
