@@ -13,3 +13,10 @@ func SplitRigid(s string, chunkMax int) []string {
 	}
 	return chunks
 }
+
+func DoneFormat(done bool) string {
+	if done {
+		return "\033[32m✓\033[0m"
+	}
+	return "\033[31m×\033[0m"
+}
