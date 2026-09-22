@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// 'Notified' identifies and marks certain task as notified by its id
 func Notified(id string) error {
 	file, err := VerifyStorageFile()
 	if err != nil {
