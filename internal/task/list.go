@@ -72,8 +72,13 @@ func List(filters []string) error {
 
 		// JUST PRINTS IN THE FIRST ITERATION AND DOESNT PRINT IF THE USER DOESNT HAVE TASKS (after line == nil)
 		if taskCount == 0 {
-			fmt.Printf("%-4s | %-30s | %-20s\n", "ICON", "TASK", "DUE")
-			fmt.Printf("%-4s---%-30s---%20s\n", "-----", "------------------------------", "--------------------") // 3 literal hyphens for matching the " | "
+			if len(filters) <= 0 {
+				fmt.Printf("%-4s | %-30s | %-20s\n", "ICON", "TASK", "DUE")
+				fmt.Printf("%-4s---%-30s---%20s\n", "----", "------------------------------", "--------------------") // 3 literal hyphens for matching the " | "
+			} else {
+				fmt.Printf("%-4s | %-30s | %-20s | %-5s\n", "ICON", "TASK", "DUE", "DONE")
+				fmt.Printf("%-4s---%-30s---%-20s---%-5s\n", "----", "------------------------------", "--------------------", "-----") // 3 literal hyphens for matching the " | "
+			}
 		}
 
 		var task Task
@@ -84,20 +89,26 @@ func List(filters []string) error {
 		}
 
 		// CHECK FILTERS AFTER TO SEE IF DONE FILTER IS ACTIVE
-		if task.Done {
+		if task.Done && len(filters) <= 0 {
 			continue
 		}
 
 		chunks := helpers.SplitRigid(task.Name, 30)
 
-		fmt.Printf("%-4s  %-30s   %-20s\n", task.Icon, chunks[0], timeutil.FormatDue(task.Due))
-
-		for i := 1; i < len(chunks); i++ {
-    		fmt.Printf("%-4s   %-30s   %-20s\n", "", chunks[i], "") // EXTRA SPACE FOR ALIGNMENT
+		// DUMB CHECK, BUT CHECK EXACT FILTERS AFTER
+		if len(filters) <= 0 {
+			fmt.Printf("%-4s   %-30s   %-20s   %-5s\n", task.Icon, chunks[0], timeutil.FormatDue(task.Due), helpers.DoneFormat(task.Done))
+			for i := 1; i < len(chunks); i++ {
+    			fmt.Printf("%-4s   %-30s   %-20s   %-5s\n", "", chunks[i], "", "") // EXTRA SPACE FOR ALIGNMENT
+			}
+		} else {
+			fmt.Printf("%-4s   %-30s   %-20s\n", task.Icon, chunks[0], timeutil.FormatDue(task.Due))
+			for i := 1; i < len(chunks); i++ {
+    			fmt.Printf("%-4s   %-30s   %-20s\n", "", chunks[i], "") // EXTRA SPACE FOR ALIGNMENT
+			}
 		}
 
 		taskCount++
-
 	}
 
 	if taskCount <= 0 {
