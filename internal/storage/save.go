@@ -1,8 +1,8 @@
 package storage
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 )
 
 // 'Save' edits the tasks file and saves the received task

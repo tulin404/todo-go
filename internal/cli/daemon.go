@@ -11,9 +11,9 @@ var 'removeCmd' represents the "daemon" subcommand and is directly linked to the
 Cobra's tree: todo -> daemon
 */
 var daemonCmd = &cobra.Command{
-	Use: "daemon",
+	Use:   "daemon",
 	Short: "Background daemon for todo (start with systemctl)",
-	Args: cobra.NoArgs,
+	Args:  cobra.NoArgs,
 
 	RunE: func(cmd *cobra.Command, args []string) error {
 		listener, err := ipc.Listen()
@@ -35,47 +35,47 @@ var daemonCmd = &cobra.Command{
 
 		for {
 			select {
-				// NEW COMMAND INCOME
-				case command := <- commands:
-					newTask, recalc := daemon.HandleCommand(*task, command)
+			// NEW COMMAND INCOME
+			case command := <-commands:
+				newTask, recalc := daemon.HandleCommand(*task, command)
 
-					// add case
-					// NO NEW TASK FOR SUB
-					if newTask != nil {
-						task = newTask
-						timer = daemon.NewTimer(*newTask.Due)
-						break
-					}
+				// add case
+				// NO NEW TASK FOR SUB
+				if newTask != nil {
+					task = newTask
+					timer = daemon.NewTimer(*newTask.Due)
+					break
+				}
 
-					// remove case
-					// TASK REMOVED, NEED TO RECALC
-					if recalc {
-						task, err = daemon.NextTask()
-						if err != nil {
-							return err
-						}
-					}
-
-				// TIME TO NOTIFY
-				case <- timer.C:
-					err := daemon.Notify(*task)
+				// remove case
+				// TASK REMOVED, NEED TO RECALC
+				if recalc {
+					task, err = daemon.NextTask()
 					if err != nil {
 						return err
 					}
+				}
 
-					newTask, err := daemon.NextTask()
-						if err != nil {
-							return err
-						}
+			// TIME TO NOTIFY
+			case <-timer.C:
+				err := daemon.Notify(*task)
+				if err != nil {
+					return err
+				}
 
-						if newTask == nil {
-							// Não há mais tarefas para agendar
-							timer = nil
-							continue
-						}
+				newTask, err := daemon.NextTask()
+				if err != nil {
+					return err
+				}
 
-						task = newTask
-						timer = daemon.NewTimer(*task.Due)
+				if newTask == nil {
+					// Não há mais tarefas para agendar
+					timer = nil
+					continue
+				}
+
+				task = newTask
+				timer = daemon.NewTimer(*task.Due)
 			}
 		}
 	},

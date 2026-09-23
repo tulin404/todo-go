@@ -99,12 +99,12 @@ func List(filters []string) error {
 		if len(filters) <= 0 {
 			fmt.Printf("%-4s   %-30s   %-20s   %-5s\n", task.Icon, chunks[0], timeutil.FormatDue(task.Due), helpers.DoneFormat(task.Done))
 			for i := 1; i < len(chunks); i++ {
-    			fmt.Printf("%-4s   %-30s   %-20s   %-5s\n", "", chunks[i], "", "") // EXTRA SPACE FOR ALIGNMENT
+				fmt.Printf("%-4s   %-30s   %-20s   %-5s\n", "", chunks[i], "", "") // EXTRA SPACE FOR ALIGNMENT
 			}
 		} else {
 			fmt.Printf("%-4s   %-30s   %-20s\n", task.Icon, chunks[0], timeutil.FormatDue(task.Due))
 			for i := 1; i < len(chunks); i++ {
-    			fmt.Printf("%-4s   %-30s   %-20s\n", "", chunks[i], "") // EXTRA SPACE FOR ALIGNMENT
+				fmt.Printf("%-4s   %-30s   %-20s\n", "", chunks[i], "") // EXTRA SPACE FOR ALIGNMENT
 			}
 		}
 

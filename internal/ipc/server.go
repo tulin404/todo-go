@@ -11,7 +11,7 @@ func Listen() (net.Listener, error) {
 }
 
 // 'AcceptCommands' is a loop for accepting connection commands and redirecting them to the commands channel
-func AcceptCommands(listener net.Listener, commands chan <- Command) {
+func AcceptCommands(listener net.Listener, commands chan<- Command) {
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
