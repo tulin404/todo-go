@@ -8,12 +8,12 @@ import (
 // var 'rootCmd' represents the root cli command ('todo') and serves as the entry point of the command tree.
 var rootCmd = &cobra.Command{
 	Use:   "todo",
-	Short: "A simple todo cli.",
+	Short: "A simple todo cli. Lists all the pending tasks if run alone.",
 	Args:  cobra.NoArgs,
 
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// THIS IMPLEMENTS A BASIC VERSION OF todo list
-		return task.List(nil)
+		return task.List("")
 	},
 }
 
@@ -24,6 +24,7 @@ func Execute() error {
 
 // 'init' appends the subcomands and flags to the its parent command
 func init() {
+	rootCmd.AddCommand(listCmd)
 	rootCmd.AddCommand(addCmd)
 	rootCmd.AddCommand(removeCmd)
 	rootCmd.AddCommand(resetCmd)
