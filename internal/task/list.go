@@ -46,7 +46,7 @@ func ListRaw() ([]Task, error) {
 }
 
 // 'List' lists all the tasks and can filter them
-func List(filters []string) error {
+func List(filter string) error {
 	file, err := storage.VerifyStorageFile()
 	if err != nil {
 		return fmt.Errorf("failed to verify tasks file: %w", err)
@@ -72,12 +72,12 @@ func List(filters []string) error {
 
 		// JUST PRINTS IN THE FIRST ITERATION AND DOESNT PRINT IF THE USER DOESNT HAVE TASKS (after line == nil)
 		if taskCount == 0 {
-			if len(filters) <= 0 {
+			if filter == "" {
 				fmt.Printf("%-4s | %-30s | %-20s\n", "ICON", "TASK", "DUE")
 				fmt.Printf("%-4s---%-30s---%20s\n", "----", "------------------------------", "--------------------") // 3 literal hyphens for matching the " | "
 			} else {
-				fmt.Printf("%-4s | %-30s | %-20s | %-5s\n", "ICON", "TASK", "DUE", "DONE")
-				fmt.Printf("%-4s---%-30s---%-20s---%-5s\n", "----", "------------------------------", "--------------------", "-----") // 3 literal hyphens for matching the " | "
+				fmt.Printf("%-4s | %-30s | %-25s | %-5s\n", "ICON", "TASK", "DUE", "DONE")
+				fmt.Printf("%-4s---%-30s---%-25s---%-5s\n", "----", "------------------------------", "-------------------------", "-----") // 3 literal hyphens for matching the " | "
 			}
 		}
 
@@ -89,22 +89,32 @@ func List(filters []string) error {
 		}
 
 		// CHECK FILTERS AFTER TO SEE IF DONE FILTER IS ACTIVE
-		if task.Done && len(filters) <= 0 {
+		if task.Done && filter == "" {
 			continue
 		}
 
 		chunks := helpers.SplitRigid(task.Name, 30)
 
 		// DUMB CHECK, BUT CHECK EXACT FILTERS AFTER
-		if len(filters) <= 0 {
-			fmt.Printf("%-4s   %-30s   %-20s   %-5s\n", task.Icon, chunks[0], timeutil.FormatDue(task.Due), helpers.DoneFormat(task.Done))
-			for i := 1; i < len(chunks); i++ {
-				fmt.Printf("%-4s   %-30s   %-20s   %-5s\n", "", chunks[i], "", "") // EXTRA SPACE FOR ALIGNMENT
-			}
-		} else {
+		if filter == "" {
 			fmt.Printf("%-4s   %-30s   %-20s\n", task.Icon, chunks[0], timeutil.FormatDue(task.Due))
 			for i := 1; i < len(chunks); i++ {
 				fmt.Printf("%-4s   %-30s   %-20s\n", "", chunks[i], "") // EXTRA SPACE FOR ALIGNMENT
+			}
+		} else {
+			switch filter {
+				case "done":
+					if task.Done {
+						fmt.Printf("%-3s   %-30s   %-25s   %-5s\n", task.Icon, chunks[0], timeutil.FormatDue(task.Due), helpers.DoneFormat(task.Done))
+						for i := 1; i < len(chunks); i++ {
+							fmt.Printf("%-3s   %-30s   %-25s   %-5s\n", "", chunks[i], "", "") // EXTRA SPACE FOR ALIGNMENT
+						}
+					}
+				case "all":
+					fmt.Printf("%-3s   %-30s   %-25s   %-5s\n", task.Icon, chunks[0], timeutil.FormatDue(task.Due), helpers.DoneFormat(task.Done))
+					for i := 1; i < len(chunks); i++ {
+						fmt.Printf("%-3s   %-30s   %-25s   %-5s\n", "", chunks[i], "", "") // EXTRA SPACE FOR ALIGNMENT
+					}
 			}
 		}
 
