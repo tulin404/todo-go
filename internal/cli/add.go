@@ -65,5 +65,5 @@ var addCmd = &cobra.Command{
 }
 
 func init() {
-	addCmd.Flags().StringVarP(&due, "due", "d", "", "Task's due date")
+	addCmd.Flags().StringVarP(&due, "due", "d", "", "Task due date")
 }
