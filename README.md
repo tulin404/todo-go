@@ -12,8 +12,9 @@ A simple and lightweight task manager for the terminal, written in Go.
 * Background daemon
 * Unix domain socket IPC
 * Persistent task storage
-* Task notifications
-* Lightweight and dependency-free runtime
+* Desktop notifications
+* Lightweight runtime
+* Single-binary distribution
 
 ## Installation
 
