@@ -64,7 +64,7 @@ sudo systemctl enable --now todo.service
 Verify if the service is running:
 
 ```bash
-// Must be active and running
+# Must be active and running
 systemctl status todo.service
 ```
 
