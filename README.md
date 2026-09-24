@@ -85,7 +85,7 @@ todo add "Study Go"
 Tasks can also have a due date:
 
 ```bash
-todo add "Study Go" --due "2026-09-23 20:00"
+todo add "Study Go" --due "2h30m"
 ```
 > `due` accepts any valid [Go duration string](https://pkg.go.dev/time#ParseDuration)
 
